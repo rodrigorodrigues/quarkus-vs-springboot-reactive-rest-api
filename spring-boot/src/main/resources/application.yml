@@ -1,0 +1,8 @@
+spring:
+    application:
+        name: spring-boot
+    security:
+        oauth2:
+            resourceserver:
+                jwt:
+                    public-key-location: ${PUBLIC_KEY_PATH:file:/tmp/publicKey.pem}

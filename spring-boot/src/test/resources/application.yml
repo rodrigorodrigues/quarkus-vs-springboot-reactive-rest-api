@@ -1,0 +1,8 @@
+spring:
+    security:
+        oauth2:
+            resourceserver:
+                jwt:
+                    jwk-set-uri: http://localhost:${wiremock.server.port}/.well-known/jwks.json
+    profiles:
+        active: auth

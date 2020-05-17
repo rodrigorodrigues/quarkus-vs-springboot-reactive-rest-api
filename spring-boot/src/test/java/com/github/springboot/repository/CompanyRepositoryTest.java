@@ -19,6 +19,7 @@ import reactor.test.StepVerifier;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -60,10 +61,17 @@ public class CompanyRepositoryTest {
 
     @Test
     public void testFindAllActiveCompanies() throws Exception {
+        StepVerifier
+            .create(companyRepository.findActiveCompanies(PageRequest.of(0, 10)))
+            .expectNextCount(2)
+            .expectComplete()
+            .verify();
+
         Queue<Company> companies = new ConcurrentLinkedQueue<>();
 
-        Disposable disposable = companyRepository.findActiveCompanies()
+        Disposable disposable = companyRepository.findActiveCompanies(PageRequest.of(0, 10))
                 .doOnNext(companies::add)
+                .log()
                 .subscribe();
 
         TimeUnit.MILLISECONDS.sleep(100);
@@ -73,13 +81,27 @@ public class CompanyRepositoryTest {
         assertThat(companies.size()).isEqualTo(2);
         assertThat(Stream.of(companies.toArray(new Company[] {})).map(Company::getName))
                 .containsExactlyInAnyOrder("Test", "Test 2");
+
+        companies = new ConcurrentLinkedQueue<>();
+        disposable = companyRepository.findActiveCompanies(PageRequest.of(0, 1))
+            .doOnNext(companies::add)
+            .log()
+            .subscribe();
+
+        TimeUnit.MILLISECONDS.sleep(100);
+
+        disposable.dispose();
+
+        assertThat(companies.size()).isEqualTo(1);
+        assertThat(Stream.of(companies.toArray(new Company[] {})).map(Company::getName))
+            .containsExactlyInAnyOrder("Test");
     }
 
     @Test
     public void testFindActiveCompaniesByUser() throws InterruptedException {
         Queue<Company> companies = new ConcurrentLinkedQueue<>();
 
-        Disposable disposable = companyRepository.findActiveCompaniesByUser("me")
+        Disposable disposable = companyRepository.findActiveCompaniesByUser("me", PageRequest.of(0, 10))
                 .doOnNext(companies::add)
                 .subscribe();
 

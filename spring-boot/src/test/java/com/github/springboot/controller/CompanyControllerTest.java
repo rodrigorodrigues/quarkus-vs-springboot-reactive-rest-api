@@ -101,7 +101,7 @@ public class CompanyControllerTest {
         companyDto.setId("100");
         CompanyDto companyDto1 = new CompanyDto();
         companyDto1.setId("200");
-        when(companyService.findAllActiveCompanies()).thenReturn(Flux.fromIterable(Arrays.asList(companyDto, companyDto1)));
+        when(companyService.findAllActiveCompanies(any())).thenReturn(Flux.fromIterable(Arrays.asList(companyDto, companyDto1)));
 
         ParameterizedTypeReference<ServerSentEvent<CompanyDto>> type = new ParameterizedTypeReference<ServerSentEvent<CompanyDto>>() {};
 
@@ -121,7 +121,7 @@ public class CompanyControllerTest {
         CompanyDto companyDto = new CompanyDto();
         companyDto.setId("100");
         companyDto.setCreatedByUser("me");
-        when(companyService.findActiveCompaniesByUser(anyString())).thenReturn(Flux.fromIterable(Arrays.asList(companyDto)));
+        when(companyService.findActiveCompaniesByUser(anyString(), any())).thenReturn(Flux.fromIterable(Arrays.asList(companyDto)));
 
         ParameterizedTypeReference<ServerSentEvent<CompanyDto>> type = new ParameterizedTypeReference<ServerSentEvent<CompanyDto>>() {};
 

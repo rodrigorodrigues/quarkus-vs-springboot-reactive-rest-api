@@ -71,8 +71,8 @@ services:
                 - QUARKUS_METRICS_PATH=/actuator
             - QUARKUS_PROFILE=auth
         volumes:
-            - /tmp/privateKey.pem:/privateKey.pem:ro
-            - /tmp/publicKey.pem:/publicKey.pem:ro
+            - ./privateKey.pem:/privateKey.pem:ro
+            - ./publicKey.pem:/publicKey.pem:ro
         depends_on:
             - mongodb
         ports:
@@ -93,8 +93,8 @@ services:
             - PRIVATE_KEY_PATH=/privateKey.pem
             - SPRING_PROFILES_ACTIVE=auth
         volumes:
-            - /tmp/privateKey.pem:/privateKey.pem:ro
-            - /tmp/publicKey.pem:/publicKey.pem:ro
+            - ./privateKey.pem:/privateKey.pem:ro
+            - ./publicKey.pem:/publicKey.pem:ro
         depends_on:
             - mongodb
         ports:

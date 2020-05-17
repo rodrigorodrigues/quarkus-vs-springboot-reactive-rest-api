@@ -24,16 +24,18 @@ public interface CompanyService {
 
     /**
      * Return list of active companies.
+     * @param pageSize page size
      * @return list of users
      */
-    Flux<CompanyDto> findAllActiveCompanies();
+    Flux<CompanyDto> findAllActiveCompanies(Integer pageSize);
 
     /**
      * Return list of active companies by user
      * @param name user
+     * @param pageSize page size
      * @return list of companies
      */
-    Flux<CompanyDto> findActiveCompaniesByUser(String name);
+    Flux<CompanyDto> findActiveCompaniesByUser(String name, Integer pageSize);
 
     /**
      * Delete a user by id.

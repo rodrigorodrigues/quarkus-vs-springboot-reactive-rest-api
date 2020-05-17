@@ -8,6 +8,7 @@ import org.mapstruct.Mapper;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -28,13 +29,13 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public Flux<CompanyDto> findAllActiveCompanies() {
-        return companyMapper.entityToDto(companyRepository.findAll());
+    public Flux<CompanyDto> findAllActiveCompanies(Integer pageSize) {
+        return companyMapper.entityToDto(companyRepository.findActiveCompanies(PageRequest.of(0, pageSize)));
     }
 
     @Override
-    public Flux<CompanyDto> findActiveCompaniesByUser(String name) {
-        return companyMapper.entityToDto(companyRepository.findActiveCompaniesByUser(name));
+    public Flux<CompanyDto> findActiveCompaniesByUser(String name, Integer pageSize) {
+        return companyMapper.entityToDto(companyRepository.findActiveCompaniesByUser(name, PageRequest.of(0, pageSize)));
     }
 
     @Override

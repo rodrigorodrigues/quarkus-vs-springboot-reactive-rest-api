@@ -14,6 +14,8 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
+import org.springframework.data.domain.Pageable;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -51,25 +53,25 @@ public class CompanyServiceImplTest {
         Mono<Company> company = Mono.just(new Company());
         when(companyRepository.findById(anyString())).thenReturn(company);
 
-        StepVerifier.create(companyService.findById(anyString()))
+        StepVerifier.create(companyService.findById("123"))
                 .expectNextCount(1)
                 .verifyComplete();
     }
 
     @Test
     public void whenCallFindAllActiveCompaniesShouldReturnListOfCompanies() {
-        when(companyRepository.findAll()).thenReturn(Flux.fromIterable(Arrays.asList(new Company(), new Company(), new Company())));
+        when(companyRepository.findActiveCompanies(any(Pageable.class))).thenReturn(Flux.fromIterable(Arrays.asList(new Company(), new Company(), new Company())));
 
-        Flux<CompanyDto> companies = companyService.findAllActiveCompanies();
+        Flux<CompanyDto> companies = companyService.findAllActiveCompanies(10);
 
         assertThat(companies.count().block()).isEqualTo(3);
     }
 
     @Test
     public void whenCallFindCompaniesByUserShouldReturnListOfCompanies() {
-        when(companyRepository.findActiveCompaniesByUser(anyString())).thenReturn(Flux.fromIterable(Arrays.asList(new Company(), new Company())));
+        when(companyRepository.findActiveCompaniesByUser(anyString(), any(Pageable.class))).thenReturn(Flux.fromIterable(Arrays.asList(new Company(), new Company())));
 
-        Flux<CompanyDto> companies = companyService.findActiveCompaniesByUser(anyString());
+        Flux<CompanyDto> companies = companyService.findActiveCompaniesByUser("me", 10);
 
         assertThat(companies.count().block()).isEqualTo(2);
     }

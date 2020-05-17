@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -49,12 +50,13 @@ public class CompanyController {
     @ApiOperation(value = "Api for return list of companies")
     @GetMapping(produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     @PreAuthorize("hasAnyRole('ADMIN', 'COMPANY_READ', 'COMPANY_SAVE', 'COMPANY_DELETE', 'COMPANY_CREATE')")
-    public Flux<CompanyDto> findAll(@ApiIgnore @AuthenticationPrincipal Authentication authentication) {
+    public Flux<CompanyDto> findAll(@ApiIgnore @AuthenticationPrincipal Authentication authentication,
+        @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize) {
         log.debug("Hello({}) is authenticated? ({})", authentication.getName(), authentication.isAuthenticated());
         if (hasRoleAdmin(authentication)) {
-            return companyService.findAllActiveCompanies();
+            return companyService.findAllActiveCompanies(pageSize);
         } else {
-            return companyService.findActiveCompaniesByUser(authentication.getName());
+            return companyService.findActiveCompaniesByUser(authentication.getName(), pageSize);
         }
     }
 

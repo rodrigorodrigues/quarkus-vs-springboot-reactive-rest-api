@@ -3,6 +3,7 @@ package com.github.springboot.repository;
 import com.github.springboot.model.Company;
 import reactor.core.publisher.Flux;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 import org.springframework.stereotype.Repository;
@@ -14,8 +15,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CompanyRepository extends ReactiveMongoRepository<Company, String> {
     @Query("{'activated': true}")
-    Flux<Company> findActiveCompanies();
+    Flux<Company> findActiveCompanies(final Pageable page);
 
     @Query("{'activated': true, 'createdByUser': ?0}")
-    Flux<Company> findActiveCompaniesByUser(String user);
+    Flux<Company> findActiveCompaniesByUser(String user, final Pageable page);
 }

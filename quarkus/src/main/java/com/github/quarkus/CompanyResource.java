@@ -9,6 +9,7 @@ import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.ForbiddenException;
 import javax.ws.rs.GET;
 import javax.ws.rs.NotFoundException;
@@ -17,6 +18,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -78,11 +80,11 @@ public class CompanyResource {
             absolute = true,
             displayName = "getAllActiveCompanies",
             description = "Monitor how many times getAllActiveCompanies method was called")
-    public Multi<CompanyDto> getAllActiveCompanies(@Context SecurityContext ctx) {
+    public Multi<CompanyDto> getAllActiveCompanies(@Context SecurityContext ctx, @QueryParam("pageSize") @DefaultValue("10") Integer pageSize) {
         String name = ctx.getUserPrincipal().getName();
         log.debug("hello {}", name);
-        Multi<Company> multi = hasRoleAdmin(ctx) ? Company.findActiveCompanies() : Company
-                .findActiveCompaniesByUser(name);
+        Multi<Company> multi = hasRoleAdmin(ctx) ? Company.findActiveCompanies(pageSize) : Company
+                .findActiveCompaniesByUser(name, pageSize);
         return multi.onItem().apply(c -> companyMapper.toResource(c));
     }
 

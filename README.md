@@ -225,12 +225,16 @@ mvn clean install docker:build
 I've used 2 replicas for each service and deployed pods to GKE.  
  
  - #### Boot Time
+- Quarkus
+
 Quarkus is really fast to startup as you can see in attached images below, it took less than 5 seconds.
 Replica 1
 ![Replica_1](docs/quarkus_startup_1.png)
 
 Replica 2
 ![Replica_2](docs/quarkus_startup_2.png)
+
+- Spring Boot
 
 Spring Boot is not so fast as Quarkus but also not too slow it took average 23 seconds to startup.
 Replica 1
@@ -240,10 +244,14 @@ Replica 2
 ![Replica_2](docs/springboot_startup_2.png)
 
  - #### Stress 1000 tps per sec
+- Quarkus
+
  - Quarkus was slower than Spring Boot to handle the requests but I believe if I change the connection pool would perform better.
 ![Performance_1](docs/quarkus_performance_test_1.png)
 ![Performance_2](docs/quarkus_performance_test_2.png)
 ![Performance_3](docs/quarkus_performance_test_3.png)  
+
+- Spring Boot
 
  - Spring Boot handle the requests faster
 ![Performance_1](docs/springboot_performance_test_1.png)

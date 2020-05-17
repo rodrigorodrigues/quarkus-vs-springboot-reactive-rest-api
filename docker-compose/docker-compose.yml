@@ -1,0 +1,108 @@
+version: '3.2'
+services:
+    mongodb:
+        image: mongo:3.4.10
+        command: mongod --port 27017
+        container_name: mongodb
+        ports:
+            - 27017:27017
+        networks:
+            net:
+                aliases:
+                    - mongodb
+
+    prometheus:
+        image: prom/prometheus
+        container_name: prometheus
+        volumes:
+            - ./prometheus.yml:/etc/prometheus/prometheus.yml
+        ports:
+            - 9090:9090
+        depends_on:
+            - spring-boot
+            - quarkus
+        links:
+            - spring-boot
+            - quarkus
+        networks:
+            net:
+                aliases:
+                    - prometheus
+
+    grafana:
+        image: grafana/grafana
+        container_name: grafana
+        ports:
+            - 3000:3000
+        environment:
+            - GF_AUTH_ANONYMOUS_ENABLED=true
+            - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+        depends_on:
+            - prometheus
+        links:
+            - prometheus
+        networks:
+            net:
+                aliases:
+                    - grafana
+
+    setup_grafana_datasource:
+        image: appropriate/curl
+        container_name: setup_grafana_datasource
+        depends_on:
+            - grafana
+        volumes:
+            - ./create-datasource-and-dashboard.sh:/create.sh:ro
+            - ./grafana-datasource.yml:/etc/grafana/provisioning/datasources:ro
+        command: /create.sh
+        networks:
+            net:
+                aliases:
+                    - setup_grafana_datasource
+
+    quarkus:
+        image: quarkus
+        container_name: quarkus
+        environment:
+            - MONGODB_URI=mongodb://mongodb:27017
+            - MONGODB_DATABASE=docker
+            - PUBLIC_KEY_PATH=/publicKey.pem
+            - PRIVATE_KEY_PATH=/privateKey.pem
+                - QUARKUS_METRICS_PATH=/actuator
+            - QUARKUS_PROFILE=auth
+        volumes:
+            - /tmp/privateKey.pem:/privateKey.pem:ro
+            - /tmp/publicKey.pem:/publicKey.pem:ro
+        depends_on:
+            - mongodb
+        ports:
+            - 8081:8081
+        networks:
+            net:
+                aliases:
+                    - quarkus
+
+    spring-boot:
+        image: spring-boot
+        container_name: spring-boot
+        environment:
+            - SPRING_DATA_MONGODB_URI=mongodb://mongodb:27017
+            - SPRING_DATA_MONGODB_DATABASE=docker
+            - LOGGING_LEVEL_COM_GITUB=debug
+            - PUBLIC_KEY_PATH=/publicKey.pem
+            - PRIVATE_KEY_PATH=/privateKey.pem
+            - SPRING_PROFILES_ACTIVE=auth
+        volumes:
+            - /tmp/privateKey.pem:/privateKey.pem:ro
+            - /tmp/publicKey.pem:/publicKey.pem:ro
+        depends_on:
+            - mongodb
+        ports:
+            - 8080:8080
+        networks:
+            net:
+                aliases:
+                    - spring-boot
+
+networks:
+    net:

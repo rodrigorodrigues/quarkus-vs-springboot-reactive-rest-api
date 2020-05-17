@@ -8,6 +8,7 @@ import java.util.UUID;
 
 import javax.validation.Valid;
 
+import com.github.springboot.config.JwtConfigurationProperties;
 import com.github.springboot.dto.AuthorizationDto;
 import com.nimbusds.jose.JWSAlgorithm;
 import com.nimbusds.jose.JWSHeader;
@@ -36,11 +37,13 @@ public class AuthorizationController {
 
     private final KeyPair keyPair;
 
+    private final JwtConfigurationProperties configurationProperties;
+
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> authorize(@RequestBody @Valid AuthorizationDto authorizationDto) throws Exception {
         JWTClaimsSet jwtClaimsSet = new JWTClaimsSet.Builder()
             .subject(authorizationDto.getUser())
-            .expirationTime(Date.from(ZonedDateTime.now().plusMinutes(1).toInstant()))
+            .expirationTime(Date.from(ZonedDateTime.now().plusMinutes(configurationProperties.getExpireInMinutes()).toInstant()))
             .issueTime(new Date())
             .notBeforeTime(new Date())
             .claim("authorities", authorizationDto.getRoles())

@@ -6,3 +6,11 @@ spring:
             resourceserver:
                 jwt:
                     public-key-location: ${PUBLIC_KEY_PATH:file:/tmp/publicKey.pem}
+cert:
+    privateKey: ${PRIVATE_KEY_PATH:}
+    publicKey: ${PUBLIC_KEY_PATH:}
+management:
+    endpoints:
+        web:
+            exposure:
+                include: health, info, prometheus

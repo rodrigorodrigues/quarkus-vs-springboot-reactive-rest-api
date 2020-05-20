@@ -1,12 +1,14 @@
 package com.github.quarkus;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
+import com.github.common.AuthorizationDto;
 import io.quarkus.runtime.StartupEvent;
 import io.quarkus.test.common.QuarkusTestResource;
 import io.quarkus.test.junit.QuarkusTest;
@@ -23,6 +25,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -103,6 +106,46 @@ public class CompanyResourceTest {
                 .body("lastModifiedDate", is(notNullValue()))
                 .body("createdByUser", is("admin"))
                 .body("name", is("new company"));
+    }
+
+    @Disabled // Couldn't figure out one way to set two profiles(test/auth) at same time.
+    @Test
+    @DisplayName("Test - When Calling POST - /api/companies with authorization header should create resource - 204")
+    public void testCreateCompanyWithAuthorizationHeader() {
+        AuthorizationDto authorizationDto = new AuthorizationDto();
+        authorizationDto.setUser("test");
+        authorizationDto.setRoles(new String[] {"ROLE_ADMIN"});
+
+        Map<String, String> token = given()
+            .when().body(authorizationDto)
+            .contentType(ContentType.JSON)
+            .post()
+            .then()
+            .statusCode(200)
+            .extract()
+            .response()
+            .getBody()
+            .as(Map.class);
+
+        assertNotNull(token);
+        assertThat(token.containsKey("token"), is(true));
+
+        CompanyDto companyDto = new CompanyDto();
+        companyDto.setName("new company");
+
+        given()
+            .when()
+            .header(HttpHeaders.AUTHORIZATION.toString(), token.get("token"))
+            .body(companyDto)
+            .contentType(ContentType.JSON)
+            .post("/api/auth")
+            .then()
+            .statusCode(201)
+            .header(HttpHeaders.LOCATION.toString(), containsString("/api/companies/"))
+            .body("createdDate", is(notNullValue()))
+            .body("lastModifiedDate", is(notNullValue()))
+            .body("createdByUser", is("admin"))
+            .body("name", is("new company"));
     }
 
     @Test

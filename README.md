@@ -17,8 +17,10 @@ Comparison between `Quarkus and Spring Boot` using a simple Reactive RestFul Api
     8. [Performance Test](#performance-test)
     9. [Final Results](#final-results)
  6. [Docker Compose](#docker-compose)
- 7. [Naive Stress Test](#naive-stress-testing-curl)
- 8. [References](#references)
+ 7. [Jmeter](#jmeter)
+ 8. [Kubernetes/Istio](#kubernetesistio)
+ 9. [Naive Stress Test](#naive-stress-testing-curl)
+ 10. [References](#references)
 
 ## Requirements
 
@@ -98,7 +100,7 @@ PS: To generate a JWT first need to `Logout` on Authorize Button.
 - Quarkus
 
 Quarkus has support for `JAX-RS` with [RESTEasy framework](https://resteasy.github.io/) also `Spring Web Annotations`.
-<details><summary>CLICK HERE</summary>
+<details><summary>Click here to expand...</summary>
 <p>
 
 ```java
@@ -124,7 +126,7 @@ public class ExampleResource {
 - Spring Boot
 
 Spring also supports `JAX-RS` but more commonly used is with `Spring Web Annotations`.
-<details><summary>CLICK HERE</summary>
+<details><summary>Click here to expand...</summary>
 <p>
 
 ```java
@@ -151,7 +153,7 @@ public class ExampleController {
 - Quarkus
 
 Quarkus is reactive by default using [Vert.x](https://vertx.io/) under the hood, the reactive rest support is using [Mutiny](https://github.com/smallrye/smallrye-mutiny) also has support for others libraries like `RxJava and Reactor`.
-<details><summary>CLICK HERE</summary>
+<details><summary>Click here to expand...</summary>
 <p>
 
 ```java
@@ -170,12 +172,13 @@ public class CompanyResource {
 
 </p>
 </details>
-Full example look at [CompanyResource](quarkus/src/main/java/com/github/quarkus/CompanyResource.java)
+
+Full example look at [CompanyResource](quarkus/src/main/java/com/github/quarkus/CompanyResource.java).
 
 - Spring Boot
 
 Spring uses [Reactor](https://projectreactor.io/) for reactive programming but also other libraries like `RxJava`.
-<details><summary>CLICK HERE</summary>
+<details><summary>Click here to expand...</summary>
 <p>
 
 ```java
@@ -194,13 +197,14 @@ public class CompanyController {
 
 </p>
 </details>
-Full example look at [CompanyController](spring-boot/src/main/java/com/github/springboot/controller/CompanyController.java)     
+
+Full example look at [CompanyController](spring-boot/src/main/java/com/github/springboot/controller/CompanyController.java).     
     
  - #### Mongodb Reactive Support
 - Quarkus
 
 Quarkus uses [Panache](https://quarkus.io/guides/mongodb-panache) and provides `Active Record Pattern style and repository`, it's a nice library but has a `preview` and is not backward compatibility.
-<details><summary>CLICK HERE</summary>
+<details><summary>Click here to expand...</summary>
 <p>
 
 ```java
@@ -224,7 +228,7 @@ public class Company extends ReactivePanacheMongoEntity implements Serializable 
 - Spring Boot
 
 Spring uses [Spring Data](https://docs.spring.io/spring-data/mongodb/docs/current/reference/html/#mongo.reactive.repositories) and `repository style` but also support other libraries like `RxJava`.
-<details><summary>CLICK HERE</summary>
+<details><summary>Click here to expand...</summary>
 <p>
 
 ```java
@@ -255,7 +259,7 @@ public interface CompanyRepository extends ReactiveMongoRepository<Company, Stri
 
 Quarkus has a good support for `OpenApi and Swagger UI` just needed library `quarkus-smallrye-openapi` and a few annotations.
 
-<details><summary>CLICK HERE</summary>
+<details><summary>Click here to expand...</summary>
 <p>
 
 ```java
@@ -269,10 +273,11 @@ public class ResourceApplication extends Application {
 }
 
 ```
-Full example look at [ResourceApplication](quarkus/src/main/java/com/github/quarkus/ResourceApplication.java)     
 
 </p>
 </details>
+
+Full example look at [ResourceApplication](quarkus/src/main/java/com/github/quarkus/ResourceApplication.java).     
 
 - Spring Boot
 
@@ -286,7 +291,7 @@ To achieve Swagger UI was necessary to use `SpringFox SNAPSHOT version`.
 Quarkus basic has `@QuarkusTest` annotation and recommends to use `rest-assured` but had some issues to test reactive rest apis with security(jwt).
 Had some issues also to test `Embedded MongoDb` needed to add a class to start mongodb manually.
 
-<details><summary>CLICK HERE</summary>
+<details><summary>Click here to expand...</summary>
 <p>
 
 ```java
@@ -306,10 +311,11 @@ public class MongoTestResource implements QuarkusTestResourceLifecycleManager {
 public class CompanyResourceTest {
 }
 ```
-Full example look at [MongoTestResource](quarkus/src/test/java/com/github/quarkus/MongoTestResource.java) and [CompanyResourceTest](quarkus/src/test/java/com/github/quarkus/CompanyResourceTest.java)     
 
 </p>
 </details>
+
+Full example look at [MongoTestResource](quarkus/src/test/java/com/github/quarkus/MongoTestResource.java) and [CompanyResourceTest](quarkus/src/test/java/com/github/quarkus/CompanyResourceTest.java).
 
 - Spring Boot
 
@@ -438,6 +444,14 @@ Result
 ### Docker Compose
 
 Once [the docker images are build](#docker-build) you can use `docker-compose` to run both services with `mongodb, prometheus and grafana`.
+
+### Jmeter
+
+Check [jmeter folder](jmeter) to run performance tests and see the results for both services.
+
+### Kubernetes/Istio
+
+Check [k8s folder](k8s) for kubernetes and istio configuration.
 
 ```shell script
 cd docker-compose

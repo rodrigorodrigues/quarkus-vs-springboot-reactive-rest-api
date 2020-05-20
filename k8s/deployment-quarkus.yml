@@ -53,8 +53,10 @@ spec:
               value: mongodb://mongodb:27017
             - name: MONGODB_DATABASE
               value: docker
+            - name: PRIVATE_KEY_PATH
+              value: /etc/private_key/dummy_privateKey.pem
             - name: PUBLIC_KEY_PATH
-              value: /etc/public_key/www.spendingbetter.com.pub
+              value: /etc/public_key/dummy_publicKey.pem
             - name: QUARKUS_METRICS_PATH
               value: /actuator
           ports:

@@ -11,7 +11,7 @@ spec:
     - name: https-port
       port: 8443
     - name: http-port
-      port: 8085
+      port: 8081
   selector:
     app: quarkus
 ---
@@ -20,7 +20,7 @@ kind: Deployment
 metadata:
   name: quarkus
 spec:
-  replicas: 2
+  replicas: 1
   template:
     metadata:
       labels:
@@ -29,7 +29,9 @@ spec:
     spec:
       containers:
         - name: quarkus
-          image: eu.gcr.io/YOUR_PROJECT/quarkus:latest
+#          image: eu.gcr.io/YOUR_PROJECT/quarkus:latest
+          image: quarkus:latest
+          imagePullPolicy: Never
           resources:
             requests:
               memory: "256Mi"
@@ -46,9 +48,9 @@ spec:
             - name: JAVA_OPTS
               value: -Xms256m -Xmx512m
             - name: QUARKUS_HTTP_PORT
-              value: "8085"
+              value: "8081"
             - name: QUARKUS_PROFILES
-              value: prod
+              value: auth
             - name: MONGODB_URI
               value: mongodb://mongodb:27017
             - name: MONGODB_DATABASE
@@ -60,12 +62,12 @@ spec:
             - name: QUARKUS_METRICS_PATH
               value: /actuator
           ports:
-            - containerPort: 8085
+            - containerPort: 8081
           livenessProbe:
             httpGet:
               scheme: HTTP
               path: /health
-              port: 8085
+              port: 8081
             initialDelaySeconds: 200
             periodSeconds: 5
       volumes:

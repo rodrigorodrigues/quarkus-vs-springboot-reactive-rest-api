@@ -11,7 +11,7 @@ spec:
     - name: https-port
       port: 8443
     - name: http-port
-      port: 8084
+      port: 8080
   selector:
     app: spring-boot
 ---
@@ -20,7 +20,7 @@ kind: Deployment
 metadata:
   name: spring-boot
 spec:
-  replicas: 2
+  replicas: 1
   template:
     metadata:
       labels:
@@ -29,7 +29,8 @@ spec:
     spec:
       containers:
         - name: spring-boot
-          image: eu.gcr.io/YOUR_PROJECT/spring-boot:latest
+          image: spring-boot
+          imagePullPolicy: Never
           resources:
             requests:
               memory: "256Mi"
@@ -46,9 +47,9 @@ spec:
             - name: JAVA_OPTS
               value: -Xms256m -Xmx512m
             - name: SERVER_PORT
-              value: "8084"
+              value: "8080"
             - name: SPRING_PROFILES_ACTIVE
-              value: prod
+              value: auth
             - name: SPRING_DATA_MONGODB_URI
               value: mongodb://mongodb:27017
             - name: SPRING_DATA_MONGODB_DATABASE
@@ -64,12 +65,12 @@ spec:
             - name: LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_SECURITY
               value: debug
           ports:
-            - containerPort: 8084
+            - containerPort: 8080
           livenessProbe:
             httpGet:
               scheme: HTTP
               path: /actuator/health
-              port: 8084
+              port: 8080
             initialDelaySeconds: 200
             periodSeconds: 5
       volumes:

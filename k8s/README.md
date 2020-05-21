@@ -32,9 +32,10 @@ kubectl apply -f deployment-quarkus.yml
 ```shell script
 curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64   && chmod +x minikube
 ```
-PS: Virtual as pre-requirement
 
  - Start
+
+Install `Virtualbox` or another `vm-driver`.
   
 ```
 minikube start --memory=8192 --cpus=4 --kubernetes-version=v1.13.1     --extra-config=controller-manager.cluster-signing-cert-file="/var/lib/minikube/certs/ca.crt"     --extra-config=controller-manager.cluster-signing-key-file="/var/lib/minikube/certs/ca.key"     --vm-driver=virtualbox
@@ -46,10 +47,11 @@ minikube start --memory=8192 --cpus=4 --kubernetes-version=v1.13.1     --extra-c
 eval $(minikube docker-env)
 ```
 Follow instructions https://stackoverflow.com/questions/42564058/how-to-use-local-docker-images-with-minikube
+PS: All commands should apply in the same `terminal console` or setting `docker-env command` for each terminal console.
 
  - Rebuild images
+ 
 Follow instructions https://github.com/rodrigorodrigues/quarkus-vs-springboot-reactive-rest-api#docker-build
-PS: All commands should apply in the same `terminal console` or setting docker-env for each terminal console.
 
 - Check if pods are running
 
@@ -68,4 +70,5 @@ kubectl port-forward $(kubectl get pod --selector="app=quarkus" --output jsonpat
 It should open access to http://localhost:8080/swagger-ui.html and for Quarkus port `8081` to call endpoints.
 
  - Istio - WIP(not working yet)
+
 Follow demo installation for the official link(https://istio.io/docs/setup/getting-started/#download).

@@ -30,7 +30,7 @@ spec:
         - destination:
             host: spring-boot
             port:
-              number: 8084
+              number: 8080
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
@@ -51,4 +51,4 @@ spec:
         - destination:
             host: quarkus
             port:
-              number: 8085
+              number: 8081

@@ -451,7 +451,7 @@ Check [jmeter folder](jmeter) to run performance tests and see the results for b
 
 ### Kubernetes/Istio
 
-Check [k8s folder](k8s) for kubernetes and istio configuration.
+Check [k8s folder](k8s) for kubernetes/minikube and istio setup.
 
 ```shell script
 cd docker-compose

@@ -15,12 +15,15 @@ spec:
   selector:
     app: quarkus
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: quarkus
 spec:
-  replicas: 1
+  selector:
+    matchLabels:
+      app: quarkus
+  replicas: 3
   template:
     metadata:
       labels:

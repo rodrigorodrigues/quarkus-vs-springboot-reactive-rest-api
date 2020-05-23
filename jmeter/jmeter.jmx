@@ -16,7 +16,7 @@
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
-          <stringProp name="LoopController.loops">10</stringProp>
+          <intProp name="LoopController.loops">-1</intProp>
         </elementProp>
         <stringProp name="ThreadGroup.num_threads">500</stringProp>
         <stringProp name="ThreadGroup.ramp_time">5</stringProp>
@@ -26,12 +26,12 @@
         <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
       </ThreadGroup>
       <hashTree>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="HTTP Request - GET" enabled="true">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Spring Boot - GET" enabled="true">
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
             <collectionProp name="Arguments.arguments"/>
           </elementProp>
-          <stringProp name="HTTPSampler.domain">0.0.0.0</stringProp>
-          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.domain">MINIKUBE_IP</stringProp>
+          <stringProp name="HTTPSampler.port">INGRESS_PORT</stringProp>
           <stringProp name="HTTPSampler.protocol">http</stringProp>
           <stringProp name="HTTPSampler.contentEncoding"></stringProp>
           <stringProp name="HTTPSampler.path">/api/companies/</stringProp>
@@ -49,7 +49,40 @@
             <collectionProp name="HeaderManager.headers">
               <elementProp name="" elementType="Header">
                 <stringProp name="Header.name">Authorization</stringProp>
-                <stringProp name="Header.value">bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJhdXRoIjoiUk9MRV9BRE1JTiIsInVzZXJfbmFtZSI6ImFkbWluQGdtYWlsLmNvbSIsImlzcyI6Imp3dCIsInR5cGUiOiJhY2Nlc3MiLCJhdXRob3JpdGllcyI6WyJST0xFX0FETUlOIl0sImNsaWVudF9pZCI6ImFkbWluQGdtYWlsLmNvbSIsImF1ZCI6Imp3dCIsIm5iZiI6MTU4OTgzNDA1Miwic2NvcGUiOlsicmVhZCJdLCJuYW1lIjoiYWRtaW5AZ21haWwuY29tIiwiZXhwIjoxNTg5ODc3MjUyLCJmcmVzaCI6dHJ1ZSwiaWF0IjoxNTg5ODM0MDUyLCJqdGkiOiI0OTY5MGNhOS0wN2YyLTQwYmItODIzOS1iZTA3OTY1YWJmMDMifQ.fPaAs_X1FXjwH7ARZqGWS23i6d0I4DOOEQMu0_aQVzs3R9-HJXxh6QrhFsETOKh0H66YPv96zKCsirvBr_UL6KKoVh3P-tt3NbUn5ZQHwUj82YBU-NGtrilwXvggVzzcScLBJBPeknsDaVjEEFfNtqnUcThnevi87g8Vbh4TFym0IZIpRM4jrQJkpnlMfdFVFcex3uTpzU-QxHVRYEcnqbw_AxtaVoGSUE5PQrfb0ulXmyST-LWV75aEmKq1o9P2UthOuLKIVBi5z04UwlvABViu7mxP9rSWgWY2dZRdrepJJmxPIAcRivJP0lZa0JqJA69azwVyc4OBv15hejrOhg</stringProp>
+                <stringProp name="Header.value">Bearer eyJraWQiOiJ0ZXN0IiwidHlwIjoiSldUIiwiYWxnIjoiUlMyNTYifQ.eyJzdWIiOiJ0ZXN0IiwibmJmIjoxNTkwMTg1NDkxLCJzY29wZSI6InJlYWQiLCJpc3MiOiJqd3QiLCJleHAiOjE1OTAyNzE4OTEsImlhdCI6MTU5MDE4NTQ5MSwiYXV0aG9yaXRpZXMiOlsiUk9MRV9BRE1JTiJdLCJqdGkiOiJiNGJkZWI4OS01NTRmLTRkMmItYmE2NS1kNmQ1YzUxMDJlOTIifQ.K0Y2t5yHNLi169FUWZZwK5HnRCLoAnmrIWBfyMVfcqBZTKNvQbQdvSwOsLkkSW1uNd93Xpxl5LOI5KWT2JvrNOiqMwYZANo-J5bPtM59Av5V0k5mwukrYda_nz90PeIIkNvTTN6a5uNPLMwdVimWMDneGOK7alnwu9TRzAMh3UFyzq6gEpZH2YIHu8abG7YibN7kUMn799l23CmjeRjKiV1nxJBaZRUzH4aCLIA8j0Dr60ZsEuZX4ZrHfDy-fPAavP4YP-R5v-AwsOEye1_ihF0NQZtGQ-WRlWmSDU9itfF8abxHh9JT1pXIJOjVlwW7GIT9ysOrydc3gRAHThI5Ig</stringProp>
+              </elementProp>
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">Content-type</stringProp>
+                <stringProp name="Header.value">application/json</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Quarkus - GET" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">MINIKUBE_IP</stringProp>
+          <stringProp name="HTTPSampler.port">INGRESS_PORT</stringProp>
+          <stringProp name="HTTPSampler.protocol">http</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/quarkus/api/companies/</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">Authorization</stringProp>
+                <stringProp name="Header.value">Bearer eyJraWQiOiJ0ZXN0IiwidHlwIjoiSldUIiwiYWxnIjoiUlMyNTYifQ.eyJzdWIiOiJ0ZXN0IiwibmJmIjoxNTkwMTg1NDkxLCJzY29wZSI6InJlYWQiLCJpc3MiOiJqd3QiLCJleHAiOjE1OTAyNzE4OTEsImlhdCI6MTU5MDE4NTQ5MSwiYXV0aG9yaXRpZXMiOlsiUk9MRV9BRE1JTiJdLCJqdGkiOiJiNGJkZWI4OS01NTRmLTRkMmItYmE2NS1kNmQ1YzUxMDJlOTIifQ.K0Y2t5yHNLi169FUWZZwK5HnRCLoAnmrIWBfyMVfcqBZTKNvQbQdvSwOsLkkSW1uNd93Xpxl5LOI5KWT2JvrNOiqMwYZANo-J5bPtM59Av5V0k5mwukrYda_nz90PeIIkNvTTN6a5uNPLMwdVimWMDneGOK7alnwu9TRzAMh3UFyzq6gEpZH2YIHu8abG7YibN7kUMn799l23CmjeRjKiV1nxJBaZRUzH4aCLIA8j0Dr60ZsEuZX4ZrHfDy-fPAavP4YP-R5v-AwsOEye1_ihF0NQZtGQ-WRlWmSDU9itfF8abxHh9JT1pXIJOjVlwW7GIT9ysOrydc3gRAHThI5Ig</stringProp>
               </elementProp>
               <elementProp name="" elementType="Header">
                 <stringProp name="Header.name">Content-type</stringProp>
@@ -96,7 +129,7 @@
           <stringProp name="filename">test_result_springboot</stringProp>
         </ResultCollector>
         <hashTree/>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="HTTP Request - POST" enabled="true">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Spring Boot - POST" enabled="true">
           <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
             <collectionProp name="Arguments.arguments">
@@ -110,8 +143,8 @@
               </elementProp>
             </collectionProp>
           </elementProp>
-          <stringProp name="HTTPSampler.domain">0.0.0.0</stringProp>
-          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.domain">MINIKUBE_IP</stringProp>
+          <stringProp name="HTTPSampler.port">INGRESS_PORT</stringProp>
           <stringProp name="HTTPSampler.protocol">http</stringProp>
           <stringProp name="HTTPSampler.contentEncoding"></stringProp>
           <stringProp name="HTTPSampler.path">/api/companies/</stringProp>
@@ -129,7 +162,50 @@
             <collectionProp name="HeaderManager.headers">
               <elementProp name="" elementType="Header">
                 <stringProp name="Header.name">Authorization</stringProp>
-                <stringProp name="Header.value">bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJhdXRoIjoiUk9MRV9BRE1JTiIsInVzZXJfbmFtZSI6ImFkbWluQGdtYWlsLmNvbSIsImlzcyI6Imp3dCIsInR5cGUiOiJhY2Nlc3MiLCJhdXRob3JpdGllcyI6WyJST0xFX0FETUlOIl0sImNsaWVudF9pZCI6ImFkbWluQGdtYWlsLmNvbSIsImF1ZCI6Imp3dCIsIm5iZiI6MTU4OTgzNDA1Miwic2NvcGUiOlsicmVhZCJdLCJuYW1lIjoiYWRtaW5AZ21haWwuY29tIiwiZXhwIjoxNTg5ODc3MjUyLCJmcmVzaCI6dHJ1ZSwiaWF0IjoxNTg5ODM0MDUyLCJqdGkiOiI0OTY5MGNhOS0wN2YyLTQwYmItODIzOS1iZTA3OTY1YWJmMDMifQ.fPaAs_X1FXjwH7ARZqGWS23i6d0I4DOOEQMu0_aQVzs3R9-HJXxh6QrhFsETOKh0H66YPv96zKCsirvBr_UL6KKoVh3P-tt3NbUn5ZQHwUj82YBU-NGtrilwXvggVzzcScLBJBPeknsDaVjEEFfNtqnUcThnevi87g8Vbh4TFym0IZIpRM4jrQJkpnlMfdFVFcex3uTpzU-QxHVRYEcnqbw_AxtaVoGSUE5PQrfb0ulXmyST-LWV75aEmKq1o9P2UthOuLKIVBi5z04UwlvABViu7mxP9rSWgWY2dZRdrepJJmxPIAcRivJP0lZa0JqJA69azwVyc4OBv15hejrOhg</stringProp>
+                <stringProp name="Header.value">Bearer eyJraWQiOiJ0ZXN0IiwidHlwIjoiSldUIiwiYWxnIjoiUlMyNTYifQ.eyJzdWIiOiJ0ZXN0IiwibmJmIjoxNTkwMTg1NDkxLCJzY29wZSI6InJlYWQiLCJpc3MiOiJqd3QiLCJleHAiOjE1OTAyNzE4OTEsImlhdCI6MTU5MDE4NTQ5MSwiYXV0aG9yaXRpZXMiOlsiUk9MRV9BRE1JTiJdLCJqdGkiOiJiNGJkZWI4OS01NTRmLTRkMmItYmE2NS1kNmQ1YzUxMDJlOTIifQ.K0Y2t5yHNLi169FUWZZwK5HnRCLoAnmrIWBfyMVfcqBZTKNvQbQdvSwOsLkkSW1uNd93Xpxl5LOI5KWT2JvrNOiqMwYZANo-J5bPtM59Av5V0k5mwukrYda_nz90PeIIkNvTTN6a5uNPLMwdVimWMDneGOK7alnwu9TRzAMh3UFyzq6gEpZH2YIHu8abG7YibN7kUMn799l23CmjeRjKiV1nxJBaZRUzH4aCLIA8j0Dr60ZsEuZX4ZrHfDy-fPAavP4YP-R5v-AwsOEye1_ihF0NQZtGQ-WRlWmSDU9itfF8abxHh9JT1pXIJOjVlwW7GIT9ysOrydc3gRAHThI5Ig</stringProp>
+              </elementProp>
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">Content-type</stringProp>
+                <stringProp name="Header.value">application/json</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Quarkus - POST" enabled="true">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&#xd;
+	&quot;name&quot;: &quot;quarkus - test jmeter - ${__UUID()}&quot;, &#xd;
+	&quot;activated&quot;: true&#xd;
+}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">MINIKUBE_IP</stringProp>
+          <stringProp name="HTTPSampler.port">INGRESS_PORT</stringProp>
+          <stringProp name="HTTPSampler.protocol">http</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/quarkus/api/companies/</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">Authorization</stringProp>
+                <stringProp name="Header.value">Bearer eyJraWQiOiJ0ZXN0IiwidHlwIjoiSldUIiwiYWxnIjoiUlMyNTYifQ.eyJzdWIiOiJ0ZXN0IiwibmJmIjoxNTkwMTg1NDkxLCJzY29wZSI6InJlYWQiLCJpc3MiOiJqd3QiLCJleHAiOjE1OTAyNzE4OTEsImlhdCI6MTU5MDE4NTQ5MSwiYXV0aG9yaXRpZXMiOlsiUk9MRV9BRE1JTiJdLCJqdGkiOiJiNGJkZWI4OS01NTRmLTRkMmItYmE2NS1kNmQ1YzUxMDJlOTIifQ.K0Y2t5yHNLi169FUWZZwK5HnRCLoAnmrIWBfyMVfcqBZTKNvQbQdvSwOsLkkSW1uNd93Xpxl5LOI5KWT2JvrNOiqMwYZANo-J5bPtM59Av5V0k5mwukrYda_nz90PeIIkNvTTN6a5uNPLMwdVimWMDneGOK7alnwu9TRzAMh3UFyzq6gEpZH2YIHu8abG7YibN7kUMn799l23CmjeRjKiV1nxJBaZRUzH4aCLIA8j0Dr60ZsEuZX4ZrHfDy-fPAavP4YP-R5v-AwsOEye1_ihF0NQZtGQ-WRlWmSDU9itfF8abxHh9JT1pXIJOjVlwW7GIT9ysOrydc3gRAHThI5Ig</stringProp>
               </elementProp>
               <elementProp name="" elementType="Header">
                 <stringProp name="Header.name">Content-type</stringProp>

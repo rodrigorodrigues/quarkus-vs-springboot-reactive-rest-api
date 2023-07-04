@@ -58,7 +58,7 @@ import static org.springframework.web.reactive.function.BodyInserters.fromValue;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = SpringBootServiceApplication.class,
 		properties = {"configuration.swagger=false",
-            "logging.level.com.github.springboot=debug"})
+            "logging.level.root=debug"})
 @AutoConfigureWebTestClient(timeout = "1s")
 @AutoConfigureWireMock(port = 0)
 @ContextConfiguration(initializers = SpringBootServiceApplication.InitPublicKeyConfiguration.class)
@@ -101,7 +101,7 @@ public class SpringBootServiceApplicationIntegrationTest {
             .keyID("test");
         JWKSet jwkSet = new JWKSet(builder.build());
 
-        String jsonPublicKey = jwkSet.toJSONObject().toJSONString();
+        String jsonPublicKey = jwkSet.toString();
         log.debug("jsonPublicKey: {}", jsonPublicKey);
         stubFor(get(anyUrl())
             .willReturn(aResponse().withHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE).withBody(jsonPublicKey)));

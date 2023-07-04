@@ -68,7 +68,7 @@ services:
             - MONGODB_DATABASE=docker
             - PUBLIC_KEY_PATH=/dummy_publicKey.pem
             - PRIVATE_KEY_PATH=/dummy_privateKey.pem
-                - QUARKUS_METRICS_PATH=/actuator
+            - QUARKUS_METRICS_PATH=/actuator
             - QUARKUS_PROFILE=auth
         volumes:
             - ./dummy_privateKey.pem:/dummy_privateKey.pem:ro

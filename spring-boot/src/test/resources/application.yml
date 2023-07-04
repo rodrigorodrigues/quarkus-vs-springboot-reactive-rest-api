@@ -6,3 +6,6 @@ spring:
                     jwk-set-uri: http://localhost:${wiremock.server.port}/.well-known/jwks.json
     profiles:
         active: auth
+    mongodb:
+        embedded:
+            version: latest
